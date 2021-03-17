@@ -45,16 +45,20 @@ class MyTask implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println(System.currentTimeMillis() + ": call "
-				+ Thread.currentThread().getName());
-		try {
-			Thread.sleep(3 * 1000);
-			//Thread.sleep(10 * 1000); // timeout occured.
-		} catch (InterruptedException e) {
-		}
+		System.out.println("call " + Thread.currentThread().getName());
 
-		String threadName = Thread.currentThread().getName();
-		map.put(key, "task finished. [" + threadName + "]");
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					// Thread.sleep(3 * 1000);
+					Thread.sleep(10 * 1000); // timeout occured.
+					String threadName = Thread.currentThread().getName();
+					map.put(key, "task finished. [" + threadName + "]");
+				} catch (InterruptedException e) {
+				}
+			}
+		}).start();
 	}
 }
 
